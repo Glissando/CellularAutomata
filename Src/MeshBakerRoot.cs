@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Specialized;
 using System;
@@ -9,23 +9,23 @@ using DigitalOpus.MB.Core;
 /// <summary>
 /// Root class of all the baking Components
 /// </summary>
-public class MB2_MeshBakerRoot : MonoBehaviour {
-	[HideInInspector] public MB2_TextureBakeResults textureBakeResults; //todo validate that is same on texture baker and meshbaker
+public class MeshBakerRoot : MonoBehaviour {
+	[HideInInspector] public TextureBakeResults textureBakeResults; //todo validate that is same on texture baker and meshbaker
 	
 	public virtual List<GameObject> GetObjectsToCombine(){
 		return null;	
 	}
 
 	
-	public static bool doCombinedValidate(MB2_MeshBakerRoot mom, MB_ObjsToCombineTypes objToCombineType, MB2_EditorMethodsInterface editorMethods){
+	public static bool doCombinedValidate(MeshBakerRoot mom, MB_ObjsToCombineTypes objToCombineType, EditorMethodsInterface editorMethods){
 		if (mom.textureBakeResults == null){
 			Debug.LogError("Need to set Material Bake Result on " + mom);
 			return false;
 		}
-		if (!(mom is MB2_TextureBaker)){
-			MB2_TextureBaker tb = mom.GetComponent<MB2_TextureBaker>();
+		if (!(mom is TextureBaker)){
+			TextureBaker tb = mom.GetComponent<TextureBaker>();
 			if (tb != null && tb.textureBakeResults != mom.textureBakeResults){
-				Debug.LogWarning("Material Bake Result on this component is not the same as the Material Bake Result on the MB2_TextureBaker.");
+				Debug.LogWarning("Material Bake Result on this component is not the same as the Material Bake Result on the TextureBaker.");
 			}
 		}
 		
@@ -58,14 +58,14 @@ public class MB2_MeshBakerRoot : MonoBehaviour {
 			}
 		}
 		List<GameObject> objs = objsToMesh;
-		if (mom is MB2_MeshBaker){
-			MB2_TextureBaker tb = mom.GetComponent<MB2_TextureBaker>();
-			if (((MB2_MeshBaker)mom).useObjsToMeshFromTexBaker && tb != null) objs = tb.objsToMesh; 
+		if (mom is MeshBaker){
+			TextureBaker tb = mom.GetComponent<TextureBaker>();
+			if (((MeshBaker)mom).useObjsToMeshFromTexBaker && tb != null) objs = tb.objsToMesh; 
 			if (objs == null || objs.Count == 0){
 				Debug.LogError("No meshes to combine. Please assign some meshes to combine.");
 				return false;
 			}
-			if (mom is MB2_MeshBaker && ((MB2_MeshBaker)mom).renderType == MB_RenderType.skinnedMeshRenderer){
+			if (mom is MeshBaker && ((MeshBaker)mom).renderType == MB_RenderType.skinnedMeshRenderer){
 				if (!editorMethods.ValidateSkinnedMeshes(objs)){
 					return false;
 				}
@@ -78,7 +78,7 @@ public class MB2_MeshBakerRoot : MonoBehaviour {
 		return true;
 	}
 
-	static bool validateSubmeshOverlap(MB2_MeshBakerRoot mom){
+	static bool validateSubmeshOverlap(MeshBakerRoot mom){
 		List<GameObject> objsToMesh = mom.GetObjectsToCombine();
 		for (int i = 0; i < objsToMesh.Count; i++){
 			Mesh m = MB_Utility.GetMesh(objsToMesh[i]);
