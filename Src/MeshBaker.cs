@@ -1,39 +1,29 @@
-﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Specialized;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using DigitalOpus.MB.Core;
 
-
-
-/// <summary>
-/// Component that manages a single combined mesh. 
-/// 
-/// This class is a Component. It must be added to a GameObject to use it. It is a wrapper for MB2_MeshCombiner which contains the same functionality but is not a component
-/// so it can be instantiated like a normal class.
-/// </summary>
-public class MB2_MeshBaker : MB2_MeshBakerCommon {	
+public class MeshBaker : MeshBakerCommon {	
 	
-	[HideInInspector] public MB2_MeshCombiner meshCombiner = new MB2_MeshCombiner();
+	[HideInInspector] public MeshCombiner meshCombiner = new MeshCombiner();
 		
 	public bool doUV2(){return meshCombiner.doUV2();}
 	public Mesh GetMesh(){return meshCombiner.GetMesh();}
 	public int GetLightmapIndex(){return meshCombiner.GetLightmapIndex();}
 	
 	public override void ClearMesh(){
-		_update_MB2_MeshCombiner();
+		_update_MeshCombiner();
 		meshCombiner.ClearMesh();
 	}
 	
 	public override void DestroyMesh(){
-		_update_MB2_MeshCombiner();
+		_update_MeshCombiner();
 		meshCombiner.DestroyMesh();
 	}
 	
-	public override void DestroyMeshEditor(MB2_EditorMethodsInterface editorMethods){
-		_update_MB2_MeshCombiner();
+	public override void DestroyMeshEditor(EditorMethodsInterface editorMethods){
+		_update_MeshCombiner();
 		meshCombiner.DestroyMeshEditor(editorMethods);		
 	}
 	
@@ -41,9 +31,9 @@ public class MB2_MeshBaker : MB2_MeshBakerCommon {
 		if (resultSceneObject == null){
 			resultSceneObject = new GameObject("CombinedMesh-" + name);
 		}
-		_update_MB2_MeshCombiner();
+		_update_MeshCombiner();
 		meshCombiner.buildSceneMeshObject(resultSceneObject, meshCombiner.GetMesh());
-		//_update_MB2_MeshCombiner();
+		//_update_MeshCombiner();
 	}
 	
 	public override int GetNumObjectsInCombined(){
@@ -55,20 +45,20 @@ public class MB2_MeshBaker : MB2_MeshBakerCommon {
 	}
 	
 	public override Mesh AddDeleteGameObjects(GameObject[] gos, GameObject[] deleteGOs, bool disableRendererInSource, bool fixOutOfBoundUVs){
-		if ((meshCombiner.outputOption == MB2_OutputOptions.bakeIntoSceneObject || (meshCombiner.outputOption == MB2_OutputOptions.bakeIntoPrefab && meshCombiner.renderType == MB_RenderType.skinnedMeshRenderer) )) BuildSceneMeshObject();
-		_update_MB2_MeshCombiner();
+		if ((meshCombiner.outputOption == OutputOptions.bakeIntoSceneObject || (meshCombiner.outputOption == OutputOptions.bakeIntoPrefab && meshCombiner.renderType == MB_RenderType.skinnedMeshRenderer) )) BuildSceneMeshObject();
+		_update_MeshCombiner();
 		return meshCombiner.AddDeleteGameObjects(gos,deleteGOs,disableRendererInSource,fixOutOfBoundUVs);		
 	}
 	
 	public override Mesh AddDeleteGameObjectsByID(GameObject[] gos, int[] deleteGOinstanceIDs, bool disableRendererInSource, bool fixOutOfBoundUVs){
-		if ((meshCombiner.outputOption == MB2_OutputOptions.bakeIntoSceneObject || (meshCombiner.outputOption == MB2_OutputOptions.bakeIntoPrefab && meshCombiner.renderType == MB_RenderType.skinnedMeshRenderer) )) BuildSceneMeshObject();
-		_update_MB2_MeshCombiner();
+		if ((meshCombiner.outputOption == OutputOptions.bakeIntoSceneObject || (meshCombiner.outputOption == OutputOptions.bakeIntoPrefab && meshCombiner.renderType == MB_RenderType.skinnedMeshRenderer) )) BuildSceneMeshObject();
+		_update_MeshCombiner();
 		return meshCombiner.AddDeleteGameObjectsByID(gos,deleteGOinstanceIDs,disableRendererInSource,fixOutOfBoundUVs);		
 
 	}
 	
 	public bool ShowHide(GameObject[] gos, GameObject[] deleteGOs){
-		_update_MB2_MeshCombiner();
+		_update_MeshCombiner();
 		return meshCombiner.ShowHideGameObjects(gos, deleteGOs);
 	}
 	
@@ -76,16 +66,16 @@ public class MB2_MeshBaker : MB2_MeshBakerCommon {
 	public override void UpdateGameObjects(GameObject[] gos, bool recalcBounds = true, bool updateVertices = true, bool updateNormals = true, bool updateTangents = true,
 									    bool updateUV = false, bool updateUV1 = false, bool updateUV2 = false,
 										bool updateColors = false, bool updateSkinningInfo = false){
-		_update_MB2_MeshCombiner();
+		_update_MeshCombiner();
 		meshCombiner.UpdateGameObjects(gos,recalcBounds,updateVertices, updateNormals, updateTangents, updateUV, updateUV1, updateUV2, updateColors, updateSkinningInfo);
 	}
-	public override void Apply(MB2_MeshCombiner.GenerateUV2Delegate uv2GenerationMethod=null){
-		_update_MB2_MeshCombiner();
+	public override void Apply(MeshCombiner.GenerateUV2Delegate uv2GenerationMethod=null){
+		_update_MeshCombiner();
 		meshCombiner.Apply(uv2GenerationMethod);
 	}
 	
 	public void ApplyShowHide(){
-		_update_MB2_MeshCombiner();
+		_update_MeshCombiner();
 		meshCombiner.ApplyShowHide();		
 	}
 	
@@ -98,13 +88,13 @@ public class MB2_MeshBaker : MB2_MeshBakerCommon {
 					  bool uv1,
 					  bool uv2,
 					  bool bones=false,
-					  MB2_MeshCombiner.GenerateUV2Delegate uv2GenerationMethod=null){
-		_update_MB2_MeshCombiner();
+					  MeshCombiner.GenerateUV2Delegate uv2GenerationMethod=null){
+		_update_MeshCombiner();
 		meshCombiner.Apply(triangles,vertices,normals,tangents,uvs,colors,uv1,uv2,bones,uv2GenerationMethod);
 	}
 	
 	bool _ValidateForUpdateSkinnedMeshBounds(){
-		if (outputOption == MB2_OutputOptions.bakeMeshAssetsInPlace){
+		if (outputOption == OutputOptions.bakeMeshAssetsInPlace){
 			Debug.LogWarning("Can't UpdateSkinnedMeshApproximateBounds when output type is bakeMeshAssetsInPlace");
 			return false;
 		}
@@ -138,7 +128,7 @@ public class MB2_MeshBaker : MB2_MeshBakerCommon {
 		}
 	}
 	
-	public void _update_MB2_MeshCombiner(){
+	public void _update_MeshCombiner(){
 		
 		meshCombiner.name = name;
 		meshCombiner.textureBakeResults = textureBakeResults;
@@ -157,11 +147,12 @@ public class MB2_MeshBaker : MB2_MeshBakerCommon {
 			} if (renderType == MB_RenderType.meshRenderer && !(r is MeshRenderer)){
 				meshCombiner.buildSceneMeshObject(resultSceneObject, meshCombiner.GetMesh());
 			}
-			if (meshCombiner.LOG_LEVEL >= MB2_LogLevel.trace) MB2_Log.Trace("Copying settings from MeshBaker to MeshCombiner. Setting target renderer=" + meshCombiner.targetRenderer);			
+			if (meshCombiner.LOG_LEVEL >= LogLevel.trace) Log.Trace("Copying settings from MeshBaker to MeshCombiner. Setting target renderer=" + meshCombiner.targetRenderer);			
 			meshCombiner.targetRenderer = resultSceneObject.GetComponentInChildren<Renderer>();
 		} else {
-			if (meshCombiner.LOG_LEVEL >= MB2_LogLevel.trace) MB2_Log.Trace("Copying settings from MeshBaker to MeshCombiner. Setting target renderer=null");						
+			if (meshCombiner.LOG_LEVEL >= LogLevel.trace) Log.Trace("Copying settings from MeshBaker to MeshCombiner. Setting target renderer=null");						
 			meshCombiner.targetRenderer = null;
 		}		
 	}
 }
+
