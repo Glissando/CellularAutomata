@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Specialized;
 using System;
@@ -7,15 +7,8 @@ using System.Text;
 using DigitalOpus.MB.Core;
 
 
-/// <summary>
-/// Maps a list of source materials to a combined material. Included in MB2_TextureBakeResults
-/// </summary>
-
-
-/// <summary>
-/// Abstract root of the mesh combining classes
-/// </summary>
-public abstract class MB2_MeshBakerCommon : MB2_MeshBakerRoot {	
+//Combines Source materials into a single Material.
+public abstract class MeshBakerCommon : MeshBakerRoot {	
 
 	public List<GameObject> objsToMesh;	
 	public bool useObjsToMeshFromTexBaker = true;
@@ -26,9 +19,9 @@ public abstract class MB2_MeshBakerCommon : MB2_MeshBakerRoot {
 	[HideInInspector] public GameObject resultSceneObject;
 	
 	[HideInInspector] public MB_RenderType renderType = MB_RenderType.meshRenderer;
-	[HideInInspector] public MB2_OutputOptions outputOption = MB2_OutputOptions.bakeIntoSceneObject;
+	[HideInInspector] public OutputOptions outputOption = OutputOptions.bakeIntoSceneObject;
 	
-	[HideInInspector] public MB2_LightmapOptions lightmapOption = MB2_LightmapOptions.ignore_UV2; //todo can't change after we have started adding
+	[HideInInspector] public LightmapOptions lightmapOption = LightmapOptions.ignore_UV2; //todo can't change after we have started adding
 	
 	public bool doNorm = true;
 	[HideInInspector] public bool doTan = true;
@@ -63,7 +56,7 @@ public abstract class MB2_MeshBakerCommon : MB2_MeshBakerRoot {
 /// </summary>	
 	public abstract void DestroyMesh();
 	
-	public abstract void DestroyMeshEditor(MB2_EditorMethodsInterface editorMethods);
+	public abstract void DestroyMeshEditor(EditorMethodsInterface editorMethods);
 
 	public abstract int GetNumObjectsInCombined();
 	
@@ -149,7 +142,7 @@ public abstract class MB2_MeshBakerCommon : MB2_MeshBakerRoot {
 /// <summary>
 /// Apply changes to the mesh. All channels set in this instance will be set in the combined mesh.
 /// </summary>
-	public abstract void Apply(MB2_MeshCombiner.GenerateUV2Delegate uv2GenerationFunction=null);
+	public abstract void Apply(MeshCombiner.GenerateUV2Delegate uv2GenerationFunction=null);
 
 /// <summary>	
 /// Applys the changes to flagged properties of the mesh. This method is slow, and should only be called once per frame. The speed is directly proportional to the number of flags that are true. Only apply necessary properties.	
@@ -163,6 +156,6 @@ public abstract class MB2_MeshBakerCommon : MB2_MeshBakerRoot {
 					  bool uv1,
 					  bool uv2,
 					  bool bones=false,
-					  MB2_MeshCombiner.GenerateUV2Delegate uv2GenerationFunction=null);
+					  MeshCombiner.GenerateUV2Delegate uv2GenerationFunction=null);
 	
 }
