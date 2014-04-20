@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Survive{
+namespace Auto{
 	[System.Serializable]
 	public class Vector2i{
 		public int x;
@@ -16,8 +16,7 @@ namespace Survive{
 			x = nx;
 			y = ny;
 		}
-		public override string ToString ()
-		{
+		public override string ToString (){
 			return string.Format ("x: " + x +", y: " + y);
 		}
 	}
@@ -97,42 +96,40 @@ namespace Survive{
 			for(int i=0;i<targets.Length;++i)
 				cells[targets[i].x,targets[i].y]=false;
 		}
-
-		protected Vector2i[] MooresNeighbours(Vector2i a){			
+		
+		protected VonNeumannNeighbours(Vector2i v){
 			List<Vector2i> neighbours=new List<Vector2i>();
-			Vector2i v;
-			//Check up cell
-			v = new Vector2i(a.x,a.y+1);
-			if(!isOutsideBounds(v))
-				neighbours.Add(v);
-			//Check up-right cell
-			v = new Vector2i(a.x+1,a.y+1);
-			if(!isOutsideBounds(v))
-				neighbours.Add(v);
-			//Check right cell
-			v = new Vector2i(a.x+1,a.y);
-			if(!isOutsideBounds(v))
-				neighbours.Add(v);
-			//Check down-left cell
-			v = new Vector2i(a.x+1,a.y-1);
-			if(!isOutsideBounds(v))
-				neighbours.Add(v);
-			//Check down cell
-			v = new Vector2i(a.x,a.y-1);
-			if(!isOutsideBounds(v))
-				neighbours.Add(v);
-			//Check left-down cell
-			v = new Vector2i(a.x-1,a.y-1);
-			if(!isOutsideBounds(v))
-				neighbours.Add(v);
-			//Check left cell
-			v = new Vector2i(a.x-1,a.y);
-			if(!isOutsideBounds(v))
-				neighbours.Add(v);
-			//Check up-left cell
-			v = new Vector2i(a.x-1,a.y+1);
-			if(!isOutsideBounds(v))
-				neighbours.Add(v);
+			Vector2i[] pos = 
+			{
+				new Vector2i(a.x,a.y+1),
+				new Vector2i(a.x+1,a.y),
+				new Vector2i(a.x,a.y-1),
+				new Vector2i(a.x-1,a.y);
+			}
+			//Check if the cells are in bounds
+			for(int i=0;i<pos.Length;++i)
+				if(!isOutsideBounds(pos[i]))
+					neighbours.Add(pos[i]);
+			return neighbours.ToArray();
+		}
+		
+		protected Vector2i[] MooresNeighbours(Vector2i v){			
+			List<Vector2i> neighbours=new List<Vector2i>();
+			Vector2i[] pos = 
+			{
+				new Vector2i(a.x,a.y+1),
+				new Vector2i(a.x+1,a.y+1),
+				new Vector2i(a.x+1,a.y),
+				new Vector2i(a.x+1,a.y-1),
+				new Vector2i(a.x,a.y-1),
+				new Vector2i(a.x-1,a.y-1),
+				new Vector2i(a.x-1,a.y),
+				new Vector2i(a.x-1,a.y+1);
+			}
+			//Check if the cells are in bounds
+			for(int i=0;i<pos.Length;++i)
+				if(!isOutsideBounds(pos[i]))
+					neighbours.Add(pos[i]);
 			return neighbours.ToArray();
 		}
 
