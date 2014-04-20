@@ -32,17 +32,8 @@ public class MB2_MultiMeshBaker : MB2_MeshBakerCommon {
 	public override void DestroyMeshEditor(MB2_EditorMethodsInterface editorMethods){
 		_update_MB2_MeshCombiner();
 		meshCombiner.DestroyMeshEditor(editorMethods);
-	}	
+	}
 	
-	//todo could use this
-//	public void BuildSceneMeshObject(){
-//		if (resultSceneObject == null){
-//			resultSceneObject = new GameObject("CombinedMesh-" + name);
-//		}
-//		_update_MB2_MeshCombiner();
-////		meshCombiner.BuildSceneMeshObject();
-//	}
-
 	public override int GetNumObjectsInCombined(){
 		return meshCombiner.GetNumObjectsInCombined();	
 	}
