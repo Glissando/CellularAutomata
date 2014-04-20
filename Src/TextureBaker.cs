@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Specialized;
 using System;
@@ -7,21 +7,7 @@ using System.Text;
 using System.IO;
 using DigitalOpus.MB.Core;
 
-
-
-/// <summary>
-/// Component that handles baking materials into a combined material.
-/// 
-/// The result of the material baking process is a MB2_TextureBakeResults object, which 
-/// becomes the input for the mesh baking.
-/// 
-/// This class uses the MB_TextureCombiner to do the combining.
-/// 
-/// This class is a Component (MonoBehavior) so it is serialized and found using GetComponent. If
-/// you want to access the texture baking functionality without creating a Component then use MB_TextureCombiner
-/// directly.
-/// </summary>
-public class MB2_TextureBaker : MB2_MeshBakerRoot {	
+public class TextureBaker : MeshBakerRoot {	
 	static bool VERBOSE = false;
 	
 	[HideInInspector] public int maxTilingBakeSize = 1024;
@@ -31,7 +17,7 @@ public class MB2_TextureBaker : MB2_MeshBakerRoot {
 	public MB_MultiMaterial[] resultMaterials = new MB_MultiMaterial[0];
 	[HideInInspector] public int atlasPadding = 1;
 	[HideInInspector] public bool resizePowerOfTwoTextures = true;
-	[HideInInspector] public MB2_PackingAlgorithmEnum texturePackingAlgorithm;
+	[HideInInspector] public PackingAlgorithmEnum texturePackingAlgorithm;
 	public List<string> customShaderPropNames = new List<string>();
 	public List<GameObject> objsToMesh;
 	
@@ -41,7 +27,7 @@ public class MB2_TextureBaker : MB2_MeshBakerRoot {
 	}
 	
 	[Obsolete("CreateAndSaveAtlases is depricated please use CreateAtlases(progressInfo, true, editorFunctions) instead.")]
-	public void CreateAndSaveAtlases(ProgressUpdateDelegate progressInfo, MB2_EditorMethodsInterface textureFormatTracker){
+	public void CreateAndSaveAtlases(ProgressUpdateDelegate progressInfo, EditorMethodsInterface textureFormatTracker){
 		CreateAtlases(progressInfo,true,textureFormatTracker);
 	}	
 	
@@ -64,7 +50,7 @@ public class MB2_TextureBaker : MB2_MeshBakerRoot {
 	/// <param name='textureFormatTracker'>
 	/// Texture format tracker. Contains editor functionality such as save assets. Can be null.
 	/// </param>
-	public MB_AtlasesAndRects[] CreateAtlases(ProgressUpdateDelegate progressInfo, bool saveAtlasesAsAssets = false, MB2_EditorMethodsInterface textureFormatTracker=null){
+	public MB_AtlasesAndRects[] CreateAtlases(ProgressUpdateDelegate progressInfo, bool saveAtlasesAsAssets = false, EditorMethodsInterface textureFormatTracker=null){
 		MB_AtlasesAndRects[] mAndAs = null;
 		try{
 			mAndAs = _CreateAtlases(progressInfo, saveAtlasesAsAssets, textureFormatTracker);
@@ -90,7 +76,7 @@ public class MB2_TextureBaker : MB2_MeshBakerRoot {
 		return mAndAs;
 	}
 	
-	MB_AtlasesAndRects[] _CreateAtlases(ProgressUpdateDelegate progressInfo, bool saveAtlasesAsAssets = false, MB2_EditorMethodsInterface textureFormatTracker=null){
+	MB_AtlasesAndRects[] _CreateAtlases(ProgressUpdateDelegate progressInfo, bool saveAtlasesAsAssets = false, EditorMethodsInterface textureFormatTracker=null){
 		//validation
 		if (saveAtlasesAsAssets && textureFormatTracker == null){
 			Debug.LogError("Error in CreateAtlases If saveAtlasesAsAssets = true then textureFormatTracker cannot be null.");
@@ -204,7 +190,7 @@ public class MB2_TextureBaker : MB2_MeshBakerRoot {
 //			}
 		
 		//set the texture bake resultAtlasesAndRects on the Mesh Baker component if it exists
-		MB2_MeshBakerCommon mb = GetComponent<MB2_MeshBakerCommon>();
+		MeshBakerCommon mb = GetComponent<MeshBakerCommon>();
 		if (mb != null){
 			mb.textureBakeResults = textureBakeResults;	
 		}			
@@ -213,7 +199,7 @@ public class MB2_TextureBaker : MB2_MeshBakerRoot {
 		return resultAtlasesAndRects;
 	}		
 
-	void unpackMat2RectMap(MB2_TextureBakeResults resultAtlasesAndRects){
+	void unpackMat2RectMap(TextureBakeResults resultAtlasesAndRects){
 		List<Material> ms = new List<Material>();
 		List<Rect> rs = new List<Rect>();
 		for (int i = 0; i < resultAtlasesAndRects.combinedMaterialInfo.Length; i++){
@@ -300,4 +286,3 @@ public class MB2_TextureBaker : MB2_MeshBakerRoot {
 		return true;
 	}
 }
-
