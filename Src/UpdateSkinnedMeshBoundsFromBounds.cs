@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using DigitalOpus.MB.Core;
 
-public class MB2_UpdateSkinnedMeshBoundsFromBounds : MonoBehaviour {
+public class UpdateSkinnedMeshBoundsFromBounds : MonoBehaviour {
 	public List<GameObject> objects;
     SkinnedMeshRenderer smr;
      
 	void Start () {
 			smr = GetComponent<SkinnedMeshRenderer>();
 			if (smr == null){
-				Debug.LogError("Need to attach MB2_UpdateSkinnedMeshBoundsFromBounds script to an object with a SkinnedMeshRenderer component attached.");
+				Debug.LogError("Need to attach UpdateSkinnedMeshBoundsFromBounds script to an object with a SkinnedMeshRenderer component attached.");
 				return;
 			}
 			if (objects == null || objects.Count == 0){
-				Debug.LogWarning("The MB2_UpdateSkinnedMeshBoundsFromBounds had no Game Objects. It should have the same list of game objects that the MeshBaker does.");
+				Debug.LogWarning("The UpdateSkinnedMeshBoundsFromBounds had no Game Objects. It should have the same list of game objects that the MeshBaker does.");
 				smr = null;
 				return;
 			}
@@ -31,7 +31,7 @@ public class MB2_UpdateSkinnedMeshBoundsFromBounds : MonoBehaviour {
     
 	void Update () {
         if (smr != null && objects != null){
-			MB2_MeshCombiner.UpdateSkinnedMeshApproximateBoundsFromBoundsStatic(objects,smr);
+			MeshCombiner.UpdateSkinnedMeshApproximateBoundsFromBoundsStatic(objects,smr);
 		}
 	}
 }
