@@ -96,8 +96,8 @@ namespace Auto{
 				new Vector2i(a.x,a.y+1),
 				new Vector2i(a.x+1,a.y),
 				new Vector2i(a.x,a.y-1),
-				new Vector2i(a.x-1,a.y);
-			}
+				new Vector2i(a.x-1,a.y)
+			};
 			//Check if the cells are in bounds
 			for(int i=0;i<pos.Length;++i)
 				if(!isOutsideBounds(pos[i]))
@@ -113,9 +113,9 @@ namespace Auto{
 					new Vector2i(a.x,a.y+1+i),
 					new Vector2i(a.x+1+i,a.y),
 					new Vector2i(a.x,a.y-1-i),
-					new Vector2i(a.x-1-i,a.y);
+					new Vector2i(a.x-1-i,a.y)
 				}
-			}
+			};
 			//Check if the cells are in bounds
 			for(int i=0;i<pos.Length;++i)
 				if(!isOutsideBounds(pos[i]))
