@@ -3,24 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Auto{
-	[System.Serializable]
-	public class Vector2i{
-		public int x;
-		public int y;
-		
-		public Vector2i(){
-			x=0;
-			y=0;
-		}
-		public Vector2i(int nx,int ny){
-			x = nx;
-			y = ny;
-		}
-		public override string ToString (){
-			return string.Format ("x: " + x +", y: " + y);
-		}
+	
+	public enum Neighbour
+	{
+		VonNeumann,
+		Moores
 	}
-	public class CellularAutomata : MonoBehaviour{
+	
+	public class CellularAutomata : MonoBehaviour
+	{
 		public GameObject cell;//Object that will represent a single cell
 		[Range(1,100)]
 		public float cell_size;
@@ -36,6 +27,8 @@ namespace Auto{
 		public bool[,] cells = new bool[10,10];
 		[Range(1,100)]
 		public int t;//Maximum amount of cycles through the board
+		
+		public Neighbour neighbour;
 		
 		//Mesh-Combine
 		public MB2_MeshBaker meshbaker;
@@ -79,7 +72,6 @@ namespace Auto{
 						go = Instantiate(cell,new Vector3(i,0,j)*cell_size+offset,Quaternion.identity) as GameObject;
 						++ii;
 					}
-			//			go.Add((GameObject)Instantiate(cell,new Vector3(i,0,j)*cell_size+offset,Quaternion.identity));
 
 			meshbaker.AddDeleteGameObjects(gos,null);
 			meshbaker.Apply(true,true,true,true,true,true,false,false,false);
@@ -97,7 +89,7 @@ namespace Auto{
 				cells[targets[i].x,targets[i].y]=false;
 		}
 		
-		protected VonNeumannNeighbours(Vector2i v){
+		protected Vector2i[] VonNeumannNeighbours(Vector2i v){
 			List<Vector2i> neighbours=new List<Vector2i>();
 			Vector2i[] pos = 
 			{
@@ -105,6 +97,24 @@ namespace Auto{
 				new Vector2i(a.x+1,a.y),
 				new Vector2i(a.x,a.y-1),
 				new Vector2i(a.x-1,a.y);
+			}
+			//Check if the cells are in bounds
+			for(int i=0;i<pos.Length;++i)
+				if(!isOutsideBounds(pos[i]))
+					neighbours.Add(pos[i]);
+			return neighbours.ToArray();
+		}
+		
+		protected Vector2i[] VonNeumannNeighbours(Vector2i v, int d){
+			List<Vector2i> neighbours=new List<Vector2i>();
+			Vector2i[] pos = 
+			{
+				for(int i=0;i<d;i++){
+					new Vector2i(a.x,a.y+1+i),
+					new Vector2i(a.x+1+i,a.y),
+					new Vector2i(a.x,a.y-1-i),
+					new Vector2i(a.x-1-i,a.y);
+				}
 			}
 			//Check if the cells are in bounds
 			for(int i=0;i<pos.Length;++i)
@@ -134,7 +144,18 @@ namespace Auto{
 		}
 
 		protected Vector2i[] AliveNeighbours(Vector2i a,int amount){
-			Vector2i[] neighbours=MooresNeighbours(a);
+			Vector2i neighbours;
+			switch(neighbour){
+				case VonNeumann: 
+				neighbours = MooresNeighbours(a);
+				break;
+				case Moores:
+				neighbours = VonNeumannNeighbours(a);
+				break;
+				default:
+				neighbours = VonNeumannNeighbours(a);
+				break;
+			}
 
 			List<Vector2i> alive=new List<Vector2i>();
 			for(int i=0;i<neighbours.Length&&i<amount;i++)
@@ -142,8 +163,21 @@ namespace Auto{
 					alive.Add(neighbours[i]);
 			return alive.ToArray();
 		}
+		
 		protected Vector2i[] AliveNeighbours(Vector2i a){
-			Vector2i[] neighbours=MooresNeighbours(a);
+			Vector2i neighbours;
+			switch(neighbour){
+				case VonNeumann: 
+				neighbours = MooresNeighbours(a);
+				break;
+				case Moores:
+				neighbours = VonNeumannNeighbours(a);
+				break;
+				default:
+				neighbours = VonNeumannNeighbours(a);
+				break;
+			}
+			
 			List<Vector2i> alive=new List<Vector2i>();
 				for(int i=0;i<neighbours.Length;i++)
 					if(cells[neighbours[i].x,neighbours[i].y]==true){
@@ -153,8 +187,20 @@ namespace Auto{
 		}
 
 		protected Vector2i[] DeadNeighbours(Vector2i a){
-			Vector2i[] neighbours=MooresNeighbours(a);
-			List<Vector2i> dead=new List<Vector2i>();
+			Vector2i neighbours;
+			switch(neighbour){
+				case VonNeumann: 
+				neighbours = MooresNeighbours(a);
+				break;
+				case Moores:
+				neighbours = VonNeumannNeighbours(a);
+				break;
+				default:
+				neighbours = VonNeumannNeighbours(a);
+				break;
+			}
+			
+			List<Vector2i> dead = new List<Vector2i>();
 				for(int i=0;i<neighbours.Length;i++)
 					if(cells[neighbours[i].x,neighbours[i].y]==false){
 						dead.Add(neighbours[i]);
@@ -163,7 +209,19 @@ namespace Auto{
 		}
 
 		protected Vector2i[] DeadNeighbours(Vector2i a,int amount){
-			Vector2i[] neighbours=MooresNeighbours(a);
+			Vector2i neighbours;
+			switch(neighbour){
+				case VonNeumann: 
+				neighbours = MooresNeighbours(a);
+				break;
+				case Moores:
+				neighbours = VonNeumannNeighbours(a);
+				break;
+				default:
+				neighbours = VonNeumannNeighbours(a);
+				break;
+			}
+			
 			List<Vector2i> alive=new List<Vector2i>();
 			for(int i=0;i<neighbours.Length&&i<amount;++i)
 				if(cells[neighbours[i].x,neighbours[i].y]==false){
