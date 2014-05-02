@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Auto{
+namespace Cell{
 	
 	public enum Neighbour
 	{
