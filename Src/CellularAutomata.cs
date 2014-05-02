@@ -100,7 +100,7 @@ namespace Auto{
 			for(int i=0;i<pos.Length;++i)
 				if(!isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
-			return neighbours.ToArray();
+			return neighbours;
 		}
 		
 		protected List<Vector2i> VonNeumannNeighbours(Vector2i v, int d){
@@ -117,7 +117,7 @@ namespace Auto{
 			for(int i=0;i<pos.Length;++i)
 				if(!isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
-			return neighbours.ToArray();
+			return neighbours;
 		}
 		
 		protected List<Vector2i> MooresNeighbours(Vector2i v){			
@@ -135,7 +135,7 @@ namespace Auto{
 			for(int i=0;i<pos.Length;++i)
 				if(!isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
-			return neighbours.ToArray();
+			return neighbours;
 		}
 
 		protected Vector2i[] AliveNeighbours(Vector2i v,int amount){
