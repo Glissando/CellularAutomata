@@ -99,7 +99,7 @@ namespace Auto{
 			
 			//Check if the cells are in bounds
 			for(int i=0;i<neighboours.Count;++i)
-				if(!isOutsideBounds(neighbours[i]))
+				if(isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
 			return neighbours;
 		}
@@ -116,7 +116,7 @@ namespace Auto{
 			
 			//Check if the cells are in bounds
 			for(int i=0;i<neighbours.Count;++i)
-				if(!isOutsideBounds(neighbours[i]))
+				if(isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
 			return neighbours;
 		}
@@ -135,7 +135,7 @@ namespace Auto{
 			
 			//Check if the cells are in bounds
 			for(int i=0;i<neighbours.Count;++i)
-				if(!isOutsideBounds(neighbours[i]))
+				if(isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
 			return neighbours;
 		}
