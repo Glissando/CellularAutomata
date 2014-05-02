@@ -107,19 +107,19 @@ namespace Auto{
 		
 		protected Vector2i[] VonNeumannNeighbours(Vector2i v, int d){
 			List<Vector2i> neighbours=new List<Vector2i>();
-			Vector2i[] pos = 
-			{
-				for(int i=0;i<d;i++){
-					new Vector2i(a.x,a.y+1+i),
-					new Vector2i(a.x+1+i,a.y),
-					new Vector2i(a.x,a.y-1-i),
-					new Vector2i(a.x-1-i,a.y)
-				}
-			};
+			
+			for(int i=0;i<d;i++){
+				neighbours.Add(new Vector2i(a.x,a.y+1+i));
+				neighbours.Add(new Vector2i(a.x+1+i,a.y));
+				neighbours.Add(new Vector2i(a.x,a.y-1-i));
+				neighbours.Add(new Vector2i(a.x-1-i,a.y));
+			}
+			
+		
 			//Check if the cells are in bounds
 			for(int i=0;i<pos.Length;++i)
-				if(!isOutsideBounds(pos[i]))
-					neighbours.Add(pos[i]);
+				if(!isOutsideBounds(neighbours[i]))
+					neighbours.Remove(i);
 			return neighbours.ToArray();
 		}
 		
