@@ -90,21 +90,22 @@ namespace Auto{
 		}
 		
 		protected List<Vector2i> VonNeumannNeighbours(Vector2i v){
-			List<Vector2i> neighbours=new List<Vector2i>();
+			List<Vector2i> neighbours = new List<Vector2i>();
+			
 			neighbours.Add(new Vector2i(v.x,v.y+1));
 			neighbours.Add(new Vector2i(v.x+1,v.y));
 			neighbours.Add(new Vector2i(v.x,v.y-1));
 			neighbours.Add(new Vector2i(v.x-1,v.y));
 			
 			//Check if the cells are in bounds
-			for(int i=0;i<pos.Length;++i)
+			for(int i=0;i<neighboours.Count;++i)
 				if(!isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
 			return neighbours;
 		}
 		
 		protected List<Vector2i> VonNeumannNeighbours(Vector2i v, int d){
-			List<Vector2i> neighbours=new List<Vector2i>();
+			List<Vector2i> neighbours = new List<Vector2i>();
 			
 			for(int i=0;i<d;i++){
 				neighbours.Add(new Vector2i(v.x,v.y+1+i));
@@ -114,14 +115,15 @@ namespace Auto{
 			}
 			
 			//Check if the cells are in bounds
-			for(int i=0;i<pos.Length;++i)
+			for(int i=0;i<neighbours.Count;++i)
 				if(!isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
 			return neighbours;
 		}
 		
 		protected List<Vector2i> MooresNeighbours(Vector2i v){			
-			List<Vector2i> neighbours=new List<Vector2i>();
+			List<Vector2i> neighbours = new List<Vector2i>();
+			
 			neighbours.Add(new Vector2i(v.x,v.y+1));
 			neighbours.Add(new Vector2i(v.x+1,v.y+1));
 			neighbours.Add(new Vector2i(v.x+1,v.y));
@@ -132,7 +134,7 @@ namespace Auto{
 			neighbours.Add(new Vector2i(v.x-1,v.y+1));
 			
 			//Check if the cells are in bounds
-			for(int i=0;i<pos.Length;++i)
+			for(int i=0;i<neighbours.Count;++i)
 				if(!isOutsideBounds(neighbours[i]))
 					neighbours.RemoveAt(i);
 			return neighbours;
@@ -152,7 +154,7 @@ namespace Auto{
 				break;
 			}
 			
-			for(int i=0;i<neighbours.Length&&i<amount;i++)
+			for(int i=0;i<neighbours.Count&&i<amount;i++)
 				if(cells[neighbours[i].x,neighbours[i].y]==false)
 					neighbours.RemoveAt(i);
 			return neighbours.ToArray();
@@ -172,7 +174,7 @@ namespace Auto{
 				break;
 			}
 			
-			for(int i=0;i<neighbours.Length;i++)
+			for(int i=0;i<neighbours.Count;i++)
 				if(cells[neighbours[i].x,neighbours[i].y]==false){
 					neighbours.RemoveAt(i);
 				}
@@ -193,7 +195,7 @@ namespace Auto{
 				break;
 			}
 			
-			for(int i=0;i<neighbours.Length;i++)
+			for(int i=0;i<neighbours.Count;i++)
 				if(cells[neighbours[i].x,neighbours[i].y]==true){
 					neighbours.RemoveAt(i);
 				}
@@ -214,7 +216,7 @@ namespace Auto{
 				break;
 			}
 			
-			for(int i=0;i<neighbours.Length&&i<amount;++i)
+			for(int i=0;i<neighbours.Count&&i<amount;++i)
 				if(cells[neighbours[i].x,neighbours[i].y]==true){
 					neighbours.RemoveAt(i);
 				}
