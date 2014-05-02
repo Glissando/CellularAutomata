@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Collections;
 
-namespace Survive{
+namespace Cell{
 	[CustomPropertyDrawer(typeof(Vector2i))]
 	public class Vector2iDrawer : PropertyDrawer{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label){
