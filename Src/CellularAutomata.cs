@@ -91,17 +91,15 @@ namespace Auto{
 		
 		protected Vector2i[] VonNeumannNeighbours(Vector2i v){
 			List<Vector2i> neighbours=new List<Vector2i>();
-			Vector2i[] pos = 
-			{
-				new Vector2i(a.x,a.y+1),
-				new Vector2i(a.x+1,a.y),
-				new Vector2i(a.x,a.y-1),
-				new Vector2i(a.x-1,a.y)
-			};
+			neighbours.Add(new Vector2i(a.x,a.y+1));
+			neighbours.Add(new Vector2i(a.x+1,a.y));
+			neighbours.Add(new Vector2i(a.x,a.y-1));
+			neighbours.Add(new Vector2i(a.x-1,a.y));
+			
 			//Check if the cells are in bounds
 			for(int i=0;i<pos.Length;++i)
-				if(!isOutsideBounds(pos[i]))
-					neighbours.Add(pos[i]);
+				if(!isOutsideBounds(neighbours[i]))
+					neighbours.Remove(i);
 			return neighbours.ToArray();
 		}
 		
@@ -125,21 +123,19 @@ namespace Auto{
 		
 		protected Vector2i[] MooresNeighbours(Vector2i v){			
 			List<Vector2i> neighbours=new List<Vector2i>();
-			Vector2i[] pos = 
-			{
-				new Vector2i(a.x,a.y+1),
-				new Vector2i(a.x+1,a.y+1),
-				new Vector2i(a.x+1,a.y),
-				new Vector2i(a.x+1,a.y-1),
-				new Vector2i(a.x,a.y-1),
-				new Vector2i(a.x-1,a.y-1),
-				new Vector2i(a.x-1,a.y),
-				new Vector2i(a.x-1,a.y+1);
-			}
+			neighbours.Add(new Vector2i(a.x,a.y+1));
+			neighbours.Add(new Vector2i(a.x+1,a.y+1));
+			neighbours.Add(new Vector2i(a.x+1,a.y));
+			neighbours.Add(new Vector2i(a.x+1,a.y-1));
+			neighbours.Add(new Vector2i(a.x,a.y-1));
+			neighbours.Add(new Vector2i(a.x-1,a.y-1));
+			neighbours.Add(new Vector2i(a.x-1,a.y));
+			neighbours.Add(new Vector2i(a.x-1,a.y+1));
+			
 			//Check if the cells are in bounds
 			for(int i=0;i<pos.Length;++i)
-				if(!isOutsideBounds(pos[i]))
-					neighbours.Add(pos[i]);
+				if(!isOutsideBounds(neighbours[i]))
+					neighbours.Remove(i);
 			return neighbours.ToArray();
 		}
 
