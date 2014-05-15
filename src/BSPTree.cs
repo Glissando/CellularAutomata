@@ -65,7 +65,7 @@ namespace Survive{
 			yield return null;
 		}
 
-		public static CellularAutomata Biome(Node node){
+		public CellularAutomata Biome(Node node){
 			int i = 0;
 			while(!generators[i].Match(node)&&i<generators.Length)
 				i++;
