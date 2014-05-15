@@ -93,13 +93,5 @@ namespace Survive{
 			gen.size.y = size.height;
 			yield return gen.StartCoroutine(gen.CellGen);
 		}
-
-		public int depth(){
-			return 0;
-		}
-
-		public int children(){
-			return 0;
-		}
 	}
 }
