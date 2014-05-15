@@ -4,12 +4,12 @@ CellularAutomata
 A one dimensional outer totalistic cellular automata using square units. Check the wiki for documentation help.
 
 
-###TODO
+##TODO
 
-#-Custom Editors
+-Custom Editors
 
-#-MultiCellular Automata
+-MultiCellular Automata
 
-#-Optimizations
+-Optimizations
 
-#-Helper functions
+-Helper functions
