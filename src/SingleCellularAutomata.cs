@@ -33,19 +33,14 @@ namespace Survive{
 		private override IEnumerator SpawnCells (){
 			base.SpawnCells ();
 
-			int ii = 0;
 			for(int i=0;i<size.x;++i)
 				for(int j=0;j<size.y;++j)
 				if(cells[i,j]==true){
 					go = Instantiate(cells[i,j].go,new Vector3(i*scale.x,0,j*scale.y)
 					                 *cell_size+offset+cells[i,j].offset,
 					                 Quaternion.identity) as GameObject;
-					++ii;
-					gos[ii] = go;
+					
 				}
-			
-			meshbaker.AddDeleteGameObjects(gos,null);
-			meshbaker.Apply(true,true,true,true,true,true,false,false,false);
 			
 			yield return null;
 		}
