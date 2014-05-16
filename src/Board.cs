@@ -12,7 +12,7 @@ namespace Survive{
 		public T this[int x, int y]{
 			get{
 				if(y>size.y||x>size.x||y<0||x<0){
-					//throw new IOException("Out of range exception");
+					//throw new IOException("Out of get range exception");
 					Debug.LogError("Out of range get operation");
 					return null;
 				}
@@ -20,7 +20,7 @@ namespace Survive{
 			}
 			set{
 				if(y>size.y||x>size.x||y<0||x<0){
-					//throw new IOException("Out of range exception");
+					//throw new IOException("Out of set range exception");
 					Debug.LogError("Out of range set operation");
 				}
 				else
