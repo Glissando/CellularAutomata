@@ -29,12 +29,6 @@ namespace Survive{
 
 		public Neighbour neighbour;
 
-		//Mesh-Combine
-		public MB2_MeshBaker meshbaker;
-
-		GameObject [] gos;
-		GameObject go;
-
 		public virtual IEnumerator CellGen(){
 			size -= 1; //Drop size to the amount displayed by inspector
 			Init ();
