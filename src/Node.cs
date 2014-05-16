@@ -49,10 +49,6 @@ namespace Survive{
 
 		}
 
-		public void PickGen(){
-
-		}
-
 		public void Split(bool flip){
 			if(flip){
 				leafs.Add(new Node(
