@@ -49,7 +49,9 @@ namespace Survive{
 		}
 
 		public Board(){
-
+			Array = new T[100];
+			size.x = 10;
+			size.y = 10;
 		}
 
 		public Board(int x, int y){
