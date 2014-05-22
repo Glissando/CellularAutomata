@@ -17,13 +17,15 @@ namespace Survive{
 		int depth;
 
 		public Biome[] generators;
-
+		
+		float progress;
+		
 		public float Progress{
-			public get{
-				return Progress*100;
+			get{
+				return progress*100;
 			}
-			private set{
-				Progress = value;
+			set{
+				progress = value;
 			}
 		}
 
@@ -59,7 +61,7 @@ namespace Survive{
 
 			for(i=0;i<tree.Count;i++){
 				yield return StartCoroutine(current_node.Peek().StartAutomata);
-				Progress+=1/tree.Count;
+				progress+=1/tree.Count;
 				tree.Dequeue();
 			}
 			yield return null;
