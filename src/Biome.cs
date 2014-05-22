@@ -9,7 +9,6 @@ namespace Survive{
 			get{
 				return area.xMin*area.yMin;
 			}
-			private set;
 		}
 
 		float chance;
