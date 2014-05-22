@@ -35,7 +35,6 @@ namespace Survive{
 					i++;
 				return i;
 			}
-			private set;
 		}
 
 		public Vector2i Capacity{
