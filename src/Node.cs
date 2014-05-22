@@ -22,7 +22,6 @@ namespace Survive{
 				}
 				return i;
 			}
-			private set;
 		}
 
 		public int Depth{
@@ -35,7 +34,6 @@ namespace Survive{
 				}
 				return i;
 			}
-			private set;
 		}
 
 		public Node(Rect size){
