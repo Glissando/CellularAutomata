@@ -30,7 +30,7 @@ namespace Survive{
 			yield return StartCoroutine("SpawnCells");
 		}
 
-		protect override IEnumerator SpawnCells (){
+		protected override IEnumerator SpawnCells (){
 			base.SpawnCells ();
 
 			for(int i=0;i<size.x;++i)
