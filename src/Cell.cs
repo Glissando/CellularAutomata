@@ -58,9 +58,8 @@ namespace Survive{
 			this.adjacent_limit = cell.adjacent_limit;
 			this.amount = cell.amount;
 			this.starting_count = cell.starting_count;
-			this.active = cell.active;
+			this.active = cell.alive;
 			this.layer = cell.layer;
-			this.precedence = cell.precedence;
 			Mathf.Clamp(this.adjacent_limit,0,8);
 		}
 	}
