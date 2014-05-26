@@ -30,7 +30,7 @@ namespace Survive{
 		}
 
 		public MapSize ReadSize(string map){
-			return (MapSize) Enum.Parse(MapSize,map,true);
+			return (MapSize) Enum.Parse(typeof(MapSize),map,true);
 		}
 
 		public IEnumerator InitAutomata(){
