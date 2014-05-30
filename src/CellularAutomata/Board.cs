@@ -14,7 +14,6 @@ namespace Survive{
 			get{
 				if(y>size.y||x>size.x||y<0||x<0){
 					throw new IndexOutOfRangeException("Out of range get exception");
-					Debug.LogError("Out of range get operation");
 					return default(T);
 				}
 				return Array[size.x*y+x];
@@ -22,7 +21,6 @@ namespace Survive{
 			set{
 				if(y>size.y||x>size.x||y<0||x<0){
 					throw new IndexOutOfRangeException("Out of range set exception");
-					Debug.LogError("Out of range set operation");
 				}
 				else
 					Array[size.x*y+x] = value;
