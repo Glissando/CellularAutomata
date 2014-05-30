@@ -31,13 +31,7 @@ namespace Survive{
 
 		protected Board<Cell> board = new Board<Cell>();
 		protected Cell[] celltype;
-		//Mesh-Combine
-		public MB2_MeshBaker meshbaker;
-
-		GameObject [] gos;
-		[HideInInspector]
-		public GameObject go;
-
+		
 		public virtual bool CellGen(){
 			size -= 1; //Drop size to the amount displayed by inspector
 			Init ();
