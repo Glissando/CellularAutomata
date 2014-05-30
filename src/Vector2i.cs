@@ -12,9 +12,9 @@ namespace Survive{
 			y=0;
 		}
 
-		public Vector2i(Vector2i a){
-			x = a.x;
-			y = a.y;
+		public Vector2i(Vector2i v){
+			x = v.x;
+			y = v.y;
 		}
 
 		public Vector2i(int x,int y){
