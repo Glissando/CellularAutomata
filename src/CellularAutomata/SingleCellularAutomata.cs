@@ -36,20 +36,13 @@ namespace Survive{
 			base.SpawnCells ();
 			int i = 0;
 			int j = 0;
-			int ii = 0;
 
 			for(i=0;i<size.x;i+=board[i,j].size.x)
 				for(j=0;j<size.y;j+=board[i,j].size.y)
 				if(board[i,j].alive==true){
-					go = Instantiate(board[i,j].go,new Vector3(i*scale.x,0,j*scale.y)
+					Instantiate(board[i,j].go,new Vector3(i*scale.x,0,j*scale.y)
 					                 +offset+board[i,j].offset,
-					                 Quaternion.identity) as GameObject;
-					++ii;
-					//gos[ii] = go;
-				}
-			
-			//meshbaker.AddDeleteGameObjects(gos,null);
-			meshbaker.Apply(true,true,true,true,true,true,false,false,false);
+					                 Quaternion.identity);
 			
 			return true;
 		}
