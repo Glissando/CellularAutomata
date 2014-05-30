@@ -13,12 +13,11 @@ namespace Survive{
 		public int amount;
 		public int starting_count;
 		public Vector3 offset;
-		public bool alive{
+		public bool alive;
+
+		public Vector3 Area{
 			get{
-				return active;
-			}
-			set{
-				active = value;
+				return new Vector3(size.x,1.0f,size.y);
 			}
 		}
 		public Cell(){
@@ -30,7 +29,16 @@ namespace Survive{
 			alive = false;
 		}
 
-		public override bool Equals (Cell obj){
+		public Cell(Cell cell){
+			this.spawn_count = cell.spawn_count;
+			this.adjacent_limit = cell.adjacent_limit;
+			this.amount = cell.amount;
+			this.starting_count = cell.starting_count;
+			this.offset = cell.offset;
+			this.alive = cell.alive;
+		}
+
+		public bool Equals (Cell obj){
 			if(this.id.Equals(obj.id)&&this.go==obj.go)
 				return true;
 			return false;
@@ -58,7 +66,7 @@ namespace Survive{
 			this.adjacent_limit = cell.adjacent_limit;
 			this.amount = cell.amount;
 			this.starting_count = cell.starting_count;
-			this.active = cell.alive;
+			this.alive = cell.alive;
 			this.layer = cell.layer;
 			Mathf.Clamp(this.adjacent_limit,0,8);
 		}

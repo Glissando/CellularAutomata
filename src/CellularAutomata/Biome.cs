@@ -5,9 +5,10 @@ namespace Survive{
 	[System.Serializable]
 	public class Biome{
 		//Stores the minimum and maximum value of the that the biome supports
-		public Rect Area{
+		Rect area;
+		public float Area{
 			get{
-				return area.xMin*area.yMin;
+				return area.width*area.height;
 			}
 		}
 
@@ -19,11 +20,12 @@ namespace Survive{
 
 		public bool Match(Node node){
 			Mathf.Clamp (chance,0.0f,100.0f);
-			if(node.size>=(area.yMin*area.xMin)&&node.size<=(area.xMax*area.yMax))
-				if(node.depth()<=depth)
-					if(node.children()<=max_children&&node.children()>=min_children)
+			if(node.Area>=(area.yMin*area.xMin)&&node.Area<=(area.xMax*area.yMax))
+				if(node.Depth<=depth)
+					if(node.Children<=max_children&&node.Children>=min_children)
 						if(Random.Range(0,100)<=chance)
 							return true;
+			return false;
 		}
 	}
 }

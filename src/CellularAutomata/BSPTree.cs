@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
 using System;
 
 namespace Survive{
@@ -17,9 +15,8 @@ namespace Survive{
 		int depth;
 
 		public Biome[] generators;
-		
 		float progress;
-		
+
 		public float Progress{
 			get{
 				return progress*100;
@@ -33,18 +30,11 @@ namespace Survive{
 			return (MapSize) Enum.Parse(typeof(MapSize),map,true);
 		}
 
-		public IEnumerator InitAutomata(){
-			Queue<Node> current_nodes;
-			for(int i=0;i<root.depth();i++){
-				yield return StartCoroutine(root.StartAutomata);
-			}
-		}
-
 		public IEnumerator GenerateWorld(){
 			bool flip = false;
 			Queue<Node> current_node = new Queue<Node>();
 			Queue<Node> tree = new Queue<Node>();
-			current_nodes.Enqueue(root);
+			current_node.Enqueue(root);
 			tree.Enqueue(root);
 			for(int i=0;i<depth;i++){
 				for(int j=0;j<current_node.Count;j++){
@@ -59,20 +49,21 @@ namespace Survive{
 				}
 			}
 
-			for(i=0;i<tree.Count;i++){
-				yield return StartCoroutine(current_node.Peek().StartAutomata);
-				progress+=1/tree.Count;
-				tree.Dequeue();
+			for(int i=0;i<tree.Count;i++){
+				if(tree.Peek().initAutomata()){
+					progress+=1/tree.Count;
+					tree.Dequeue();
+				}
 			}
 			yield return null;
 		}
 
-		public CellularAutomata Biome(Node node){
+		public void Biome(Node node){
 			int i = 0;
 			while(!generators[i].Match(node)&&i<generators.Length)
 				i++;
 			node.gen = generators[i].generator;
-			node.gen = (node.gen==null) ? generators[Random.Range(0,generators.Length)] : node.gen;
+			node.gen = (node.gen==null) ? generators[UnityEngine.Random.Range(0,generators.Length)].generator : node.gen;
 		}
 	}
 }

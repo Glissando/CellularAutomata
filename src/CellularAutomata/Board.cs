@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.IO;
+using System;
 
 namespace Survive{
 	[System.Serializable]
@@ -12,15 +13,15 @@ namespace Survive{
 		public T this[int x, int y]{
 			get{
 				if(y>size.y||x>size.x||y<0||x<0){
-					//throw new IOException("Out of get range exception");
+					throw new IndexOutOfRangeException("Out of range get exception");
 					Debug.LogError("Out of range get operation");
-					return null;
+					return default(T);
 				}
 				return Array[size.x*y+x];
 			}
 			set{
 				if(y>size.y||x>size.x||y<0||x<0){
-					//throw new IOException("Out of set range exception");
+					throw new IndexOutOfRangeException("Out of range set exception");
 					Debug.LogError("Out of range set operation");
 				}
 				else
@@ -48,9 +49,7 @@ namespace Survive{
 		}
 
 		public Board(){
-			Array = new T[100];
-			size.x = 10;
-			size.y = 10;
+
 		}
 
 		public Board(int x, int y){

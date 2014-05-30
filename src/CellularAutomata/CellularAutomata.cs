@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
-using System.IO;
 using System.Linq;
 
 namespace Survive{
@@ -14,29 +12,40 @@ namespace Survive{
 	}
 
 	public class CellularAutomata : MonoBehaviour{
-		public Vector3 offset; // Amount to offset objects when spawning
-		public Vector2i size;//Size of the board
+		// Amount to offset objects when spawning
+		public Vector3 offset;
+		public Vector2i size;
 		public Vector2i scale;
 
-		public Cell[] celltype;//Cell types
 
 		public bool isrepeat;
+		//Repeat rate
 		[Range(0,1000)]
-		public float repeat;//Repeat rate
-
+		public float repeat;
+		//Maximum amount of cycles through the board
 		[Range(1,50)]
-		public int t;//Maximum amount of cycles through the board
+		public int t;
 
+		//Neighbour type
 		public Neighbour neighbour;
 
-		public virtual IEnumerator CellGen(){
+		protected Board<Cell> board = new Board<Cell>();
+		protected Cell[] celltype;
+		//Mesh-Combine
+		public MB2_MeshBaker meshbaker;
+
+		GameObject [] gos;
+		[HideInInspector]
+		public GameObject go;
+
+		public virtual bool CellGen(){
 			size -= 1; //Drop size to the amount displayed by inspector
 			Init ();
-
+			return true;
 		}
 
-		protected virtual IEnumerator SpawnCells(){
-
+		protected virtual bool SpawnCells(){
+			return true;
 		}
 
 		protected virtual void SetAlive(Vector2i[] targets){
@@ -66,7 +75,7 @@ namespace Survive{
 		}
 
 		protected List<Vector2i> ConwayNeighbours(int x, int y){
-			List<Vector2i> neighbours = new List<Vector2i>();
+			List<Vector2i> neighbours = new List<Vector2i>(8);
 			
 			neighbours.Add(new Vector2i(x-1,y+1));
 			neighbours.Add(new Vector2i(x+1,y+1));
@@ -81,6 +90,7 @@ namespace Survive{
 		}
 
 		protected List<Vector2i> ConwayNeighbours(Vector2i v, int d){
+			List<Vector2i> neighbours = new List<Vector2i>(8);
 
 			for(int i=0;i<d;i++){
 				neighbours.Add(new Vector2i(v.x-1-i,v.y+1+i));
@@ -97,7 +107,8 @@ namespace Survive{
 		}
 
 		protected List<Vector2i> ConwayNeighbours(int x, int y, int d){
-			
+			List<Vector2i> neighbours = new List<Vector2i>(8);
+
 			for(int i=0;i<d;i++){
 				neighbours.Add(new Vector2i(x-1-i,y+1+i));
 				neighbours.Add(new Vector2i(x+1+i,y+1+i));
@@ -236,7 +247,7 @@ namespace Survive{
 			}
 
 			for(int i=0;i<neighbours.Count;i++)
-			if(cells[neighbours[i].x,neighbours[i].y].alive==true){
+			if(board[neighbours[i].x,neighbours[i].y].alive==true){
 				neighbours.RemoveAt(i);
 			}
 			return neighbours.ToArray();
@@ -326,8 +337,7 @@ namespace Survive{
 					neighbours = VonNeumannNeighbours(v);
 					break;
 			}
-			Mathf.Clamp(amount,0,8);
-			return neighbours.RemoveRange(amount,neighbours.Count-amount);
+			return neighbours.ToArray();
 		}
 
 		protected bool isOutsideBounds(Vector2i v){
@@ -342,33 +352,15 @@ namespace Survive{
 			return false;
 		}
 
-		protected Cell GetType(Cell cell){
-			for(int i=0;i<celltype.Length;i++)
-				if(celltype.Equals(cell))
-					return celltype[i];
-		}
-
-		protected MultiCell GetType(MultiCell cell){
-			for(int i=0;i<celltype.Length;i++)
-				if(celltype.Equals(cell))
-					return celltype[i];
-		}
-
-		protected SingleCell GetType(SingleCell cell){
-			for(int i=0;i<celltype.Length;i++)
-				if(celltype.Equals(cell))
-					return celltype[i];
-		}
-
 		protected virtual void Init(){
 			int j = 0;
 			for(int i=0;i<celltype.Length;i++)
-				while(cell[j].starting_count!=0){
+				while(celltype[j].starting_count!=0){
 					int rx = Random.Range(0,size.x);
 					int ry = Random.Range(0,size.y);
 					j++;
 					board[rx,ry] = new Cell(celltype[i]);
-					cell[i].starting_count--;
+					celltype[i].starting_count--;
 				}
 		}
 	}

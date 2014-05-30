@@ -5,7 +5,13 @@ using System.Collections.Generic;
 namespace Survive{
 	[System.Serializable]
 	public class Node : ScriptableObject{
-		Rect size;
+		Rect area;
+
+		public float Area{
+			get{
+				return area.width*area.height;
+			}
+		}
 		public CellularAutomata gen;
 		public Node parent;
 		public List<Node> leafs;
@@ -36,29 +42,33 @@ namespace Survive{
 			}
 		}
 
-		public Node(Rect size){
-			this.size.xMax = Mathf.Floor(size.xMax);
-			this.size.yMax = Mathf.Floor(size.yMax);
-			this.size.xMin = Mathf.Floor(size.xMin);
-			this.size.yMin = Mathf.Floor(size.yMin);
-			this.size = size;
+		public Node(Rect area){
+			this.area.xMax = Mathf.Floor(area.xMax);
+			this.area.yMax = Mathf.Floor(area.yMax);
+			this.area.xMin = Mathf.Floor(area.xMin);
+			this.area.yMin = Mathf.Floor(area.yMin);
+			this.area = area;
 
-			leafs = new List<Node>();
+			leafs = new List<Node>(2);
+
+		}
+
+		public void PickGen(){
 
 		}
 
 		public void Split(bool flip){
 			if(flip){
 				leafs.Add(new Node(
-				new Rect(size.xMin,size.yMax,
-					Random.Range(size.width/4,size.width/2),
-					Random.Range(size.height/4,size.height/2)))
+				new Rect(area.xMin,area.yMax,
+					Random.Range(area.width/4,area.width/2),
+					Random.Range(area.height/4,area.height/2)))
 				);
 
 				leafs.Add(new Node(
-					new Rect(size.xMin,size.yMax,
-				         Random.Range(size.width/4,size.width/2),
-				         Random.Range(size.height/4,size.height/2)))
+					new Rect(area.xMin,area.yMax,
+				         Random.Range(area.width/4,area.width/2),
+				         Random.Range(area.height/4,area.height/2)))
 				);
 			}
 			else{
@@ -82,10 +92,10 @@ namespace Survive{
 			return node;
 		}
 
-		public IEnumerator StartAutomata(){
-			gen.size.x = size.width;
-			gen.size.y = size.height;
-			yield return gen.StartCoroutine(gen.CellGen);
+		public bool initAutomata(){
+			gen.size.x = Mathf.RoundToInt(area.width);
+			gen.size.y = Mathf.RoundToInt(area.height);
+			return gen.CellGen();
 		}
 	}
 }
