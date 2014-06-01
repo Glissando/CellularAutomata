@@ -40,8 +40,16 @@ namespace Survive{
 			return new Vector2i(a.x+b,a.y+b);
 		}
 
+		public static Vector2i operator +(Vector2ia, Vector2i b){
+			return new Vector2i(a.x+b.x,a.y+b.y);
+		}
+
 		public static Vector2i operator -(Vector2i a, int b){
-			return new Vector2i(a.x+b,a.y+b);
+			return new Vector2i(a.x-b,a.y-b);
+		}
+
+		public static Vector2i operator-(Vector2i a, Vector2i b){
+			return new Vector2i(a.x-b.y,a.x-b.x);
 		}
 
 		public static Vector2i operator *(Vector2i a, int b){
@@ -66,14 +74,14 @@ namespace Survive{
 
 		public static bool operator !=(Vector2i a, Vector2i b){
 			if(a.x==b.x&&a.y==b.y)
-				return true;
-			return false;
+				return false;
+			return true;
 		}
 
 		public static bool operator !=(Vector2i a, int b){
 			if(a.x==b&&a.y==b)
-				return true;
-			return false;
+				return false;
+			return true;
 		}
 	}
 }
