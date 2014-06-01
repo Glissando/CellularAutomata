@@ -33,7 +33,7 @@ namespace Survive{
 		}
 
 		public override int GetHashCode (){
-			return this.x^this.y;
+			return (this.x*7919)^this.y;
 		}
 
 		public static Vector2i operator +(Vector2i a, int b){
